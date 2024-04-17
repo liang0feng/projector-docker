@@ -91,6 +91,7 @@ ENV PROJECTOR_DIR /projector
 COPY --from=projectorStaticFiles $PROJECTOR_DIR $PROJECTOR_DIR
 
 ENV PROJECTOR_USER_NAME projector-user
+ENV KINGDEE_USER_NAME kingdee
 
 RUN true \
 # Any command which returns non-zero exit code will cause this shell script to exit immediately:
@@ -100,15 +101,14 @@ RUN true \
 # move run scipt:
     && mv $PROJECTOR_DIR/run.sh run.sh \
 # change user to non-root (http://pjdietz.com/2016/08/28/nginx-in-docker-without-root.html):
-    && mv $PROJECTOR_DIR/$PROJECTOR_USER_NAME /home \
-    && useradd -d /home/$PROJECTOR_USER_NAME -s /bin/bash -G sudo $PROJECTOR_USER_NAME \
+    && useradd -d /home/$KINGDEE_USER_NAME -s /bin/bash -G sudo $KINGDEE_USER_NAME \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && chown -R $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME /home/$PROJECTOR_USER_NAME \
-    && chown -R $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME $PROJECTOR_DIR/ide/bin \
-    && chown $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME run.sh
+    && chown -R $KINGDEE_USER_NAME.$KINGDEE_USER_NAME /home/$PROJECTOR_USER_NAME \
+    && chown -R $KINGDEE_USER_NAME.$KINGDEE_USER_NAME $PROJECTOR_DIR/ide/bin \
+    && chown $KINGDEE_USER_NAME.$KINGDEE_USER_NAME run.sh
 
-USER $PROJECTOR_USER_NAME
-ENV HOME /home/$PROJECTOR_USER_NAME
+USER $KINGDEE_USER_NAME
+ENV HOME /home/$KINGDEE_USER_NAME
 
 EXPOSE 8887
 
