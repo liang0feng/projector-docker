@@ -103,7 +103,6 @@ RUN true \
 # change user to non-root (http://pjdietz.com/2016/08/28/nginx-in-docker-without-root.html):
     && useradd -d /home/$KINGDEE_USER_NAME -s /bin/bash -G sudo $KINGDEE_USER_NAME \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && chown -R $KINGDEE_USER_NAME.$KINGDEE_USER_NAME /home/$PROJECTOR_USER_NAME \
     && chown -R $KINGDEE_USER_NAME.$KINGDEE_USER_NAME $PROJECTOR_DIR/ide/bin \
     && chown $KINGDEE_USER_NAME.$KINGDEE_USER_NAME run.sh
 
