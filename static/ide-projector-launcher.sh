@@ -64,9 +64,25 @@ sed -i 's+com.intellij.idea.Main+-Dorg.jetbrains.projector.server.classToLaunch=
 # -Dorg.jetbrains.projector.server.classToLaunch=${MAIN_CLASS} org.jetbrains.projector.server.ProjectorLauncher
 sed -i 's+\${MAIN_CLASS}+-Dorg.jetbrains.projector.server.classToLaunch=\${MAIN_CLASS} org.jetbrains.projector.server.ProjectorLauncher+g' "$IDE_RUN_FILE_NAME-projector.sh"
 
-# leif 
-# modify /home/projector-user ownner
-sudo chown projector-user.projector-user projector-user
+# leif #### 判断目录/home/kingdee，不为空，就将/projector/projector-user/* 复制到/home/kingdee目录下
+# 指定要检查的目录
+DIR_TO_CHECK="/home/kingdee"
+
+# 检查目录是否存在且不为空
+if [ -d "$DIR_TO_CHECK" ] && [ "$(ls -A "$DIR_TO_CHECK")" ]; then
+    # 目录不为空，执行复制操作
+    # 源目录
+    SRC_DIR="/projector/projector-user"
+    # 目标目录
+    DEST_DIR="$DIR_TO_CHECK"
+
+    # 复制所有文件和目录到目标目录
+    cp -r "$SRC_DIR"/* "$DEST_DIR"/
+    echo "Copied contents from $SRC_DIR to $DEST_DIR."
+else
+    # 目录为空或不存在，不执行操作
+    echo "Directory $DIR_TO_CHECK is empty or does not exist."
+fi
 
 bash "$IDE_RUN_FILE_NAME-projector.sh"
 
