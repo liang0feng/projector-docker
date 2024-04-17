@@ -59,7 +59,7 @@ RUN mv projector-server $PROJECTOR_DIR/ide/projector-server
 RUN mv $PROJECTOR_DIR/ide-projector-launcher.sh $PROJECTOR_DIR/ide/bin
 RUN chmod 644 $PROJECTOR_DIR/ide/projector-server/lib/*
 
-FROM feng0liang/idea2021-3-3:1.0
+FROM feng0liang/debian10.1:1.0
 
 RUN true \
 # Any command which returns non-zero exit code will cause this shell script to exit immediately:
