@@ -21,7 +21,7 @@ RUN apt-get update
 RUN apt-get install wget -y
 # download IDE to the /ide dir:
 WORKDIR /download
-ARG downloadUrl
+ENV downloadUrl https://download-cdn.jetbrains.com/idea/ideaIC-2021.3.3.tar.gz
 RUN wget -q $downloadUrl -O - | tar -xz
 RUN find . -maxdepth 1 -type d -name * -execdir mv {} /ide \;
 
@@ -32,7 +32,7 @@ ENV PROJECTOR_DIR /projector
 # projector-server:
 ADD projector-server $PROJECTOR_DIR/projector-server
 WORKDIR $PROJECTOR_DIR/projector-server
-ARG buildGradle
+ENV buildGradle true
 RUN if [ "$buildGradle" = "true" ]; then ./gradlew clean; else echo "Skipping gradle build"; fi
 RUN if [ "$buildGradle" = "true" ]; then ./gradlew :projector-server:distZip; else echo "Skipping gradle build"; fi
 RUN cd projector-server/build/distributions && find . -maxdepth 1 -type f -name projector-server-*.zip -exec mv {} projector-server.zip \;
